@@ -1,14 +1,14 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const { 
-  title = "Matthew Lanigan | Senior Software Engineer", 
-  description = "Professional resume and portfolio of Matthew Lanigan, a Senior Software Engineer specializing in full-stack web application development, microservices, and system design."
+const {
+  title = "Matthew Lanigan | Senior Software Engineer",
+  description = "Professional resume and portfolio of Matthew Lanigan, a Senior Software Engineer specializing in full-stack web application development, microservices, and system design.",
 } = Astro.props;
 ---
 
@@ -17,10 +17,14 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="rintaun.dev" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
-    
+
     <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
@@ -30,21 +34,24 @@ const {
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    
+
     <!-- Theme Initialization Script to Prevent Flashing -->
     <script is:inline>
       const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
         }
         // Default to dark theme as it matches the premium aesthetic
-        return 'dark';
+        return "dark";
       })();
-      
-      if (theme === 'light') {
-        document.documentElement.classList.add('light');
+
+      if (theme === "light") {
+        document.documentElement.classList.add("light");
       } else {
-        document.documentElement.classList.remove('light');
+        document.documentElement.classList.remove("light");
       }
     </script>
   </head>
