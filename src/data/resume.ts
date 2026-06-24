@@ -43,7 +43,7 @@ export const contactInfo: ContactInfo = {
   phone: "+1 (717) 746-8286",
   location: "Georgetown, PA 15043",
   github: "https://github.com/rintaun",
-  linkedin: "https://linkedin.com/in/rintaun",
+  linkedin: "https://linkedin.com/in/matthewlanigan",
   website: "https://rintaun.dev",
 };
 
