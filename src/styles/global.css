@@ -180,3 +180,12 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
+@media (max-width: 640px) {
+  .glass-panel {
+    padding: 1.25rem 1rem;
+  }
+  body {
+    padding: 1rem 0.5rem;
+  }
+}
+
