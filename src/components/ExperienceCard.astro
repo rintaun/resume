@@ -1,0 +1,354 @@
+---
+import type { WorkExperience } from '../data/resume';
+
+interface Props {
+  experience: WorkExperience;
+  index: number;
+}
+
+const { experience, index } = Astro.props;
+---
+
+<div 
+  class="experience-card glass-panel" 
+  data-tech={experience.technologies.map(t => t.toLowerCase()).join(',')}
+  style={`animation-delay: ${index * 100}ms`}
+>
+  <div class="card-glow"></div>
+  
+  <div class="experience-header">
+    <div class="role-company-wrapper">
+      <h3 class="role-title">{experience.role}</h3>
+      <div class="company-row">
+        <span class="company-name">{experience.company}</span>
+        {experience.location && <span class="location-tag">({experience.location})</span>}
+      </div>
+    </div>
+    
+    <span class="experience-dates">{experience.startDate} — {experience.endDate}</span>
+  </div>
+
+  <ul class="experience-bullets">
+    {experience.bullets.map(bullet => (
+      <li 
+        class="bullet-item" 
+        data-bullet-tech={bullet.tech ? bullet.tech.map(t => t.toLowerCase()).join(',') : ''}
+      >
+        <span class="bullet-text">{bullet.text}</span>
+        {bullet.tech && (
+          <span class="bullet-tech no-print">
+            {bullet.tech.map(tech => (
+              <span class="tech-inline-badge">{tech}</span>
+            ))}
+          </span>
+          /* Note: The print media CSS will display these tech badges inline formatted differently */
+          <span class="bullet-tech-print" style="display:none;">
+            {bullet.tech.join(', ')}
+          </span>
+        )}
+      </li>
+    ))}
+  </ul>
+
+  <div class="experience-tags-container no-print">
+    {experience.technologies.map(tech => (
+      <span class="badge tech-card-badge" data-tech-tag={tech.toLowerCase()}>{tech}</span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .experience-card {
+    position: relative;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: 
+      transform var(--transition-normal), 
+      border-color var(--transition-normal), 
+      opacity var(--transition-normal),
+      box-shadow var(--transition-normal);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .experience-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+    opacity: 0.7;
+    transition: opacity var(--transition-normal);
+  }
+
+  .experience-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--surface-border-hover);
+    box-shadow: 0 12px 40px -15px rgba(0, 0, 0, 0.2);
+  }
+
+  .experience-card:hover::before {
+    opacity: 1;
+  }
+
+  .card-glow {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--accent-primary-glow) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+    opacity: 0.5;
+    transition: opacity var(--transition-slow);
+  }
+
+  .experience-card:hover .card-glow {
+    opacity: 0.8;
+  }
+
+  /* Filtering Dimmed State */
+  .experience-card.dimmed {
+    opacity: 0.25;
+    transform: scale(0.98);
+    pointer-events: none;
+  }
+  
+  .experience-card.highlighted {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 20px var(--accent-primary-glow);
+  }
+
+  .experience-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .experience-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  .role-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .company-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.2rem;
+  }
+
+  .company-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+  }
+
+  .location-tag {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .experience-dates {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--badge-bg);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--badge-border);
+    align-self: flex-start;
+  }
+
+  @media (min-width: 640px) {
+    .experience-dates {
+      align-self: auto;
+    }
+  }
+
+  .experience-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .bullet-item {
+    position: relative;
+    padding-left: 1.25rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    transition: opacity var(--transition-fast), color var(--transition-fast);
+  }
+
+  .bullet-item::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-secondary);
+    font-weight: bold;
+  }
+
+  /* Inline technology tags within bullets */
+  .bullet-tech {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  .tech-inline-badge {
+    font-size: 0.7rem;
+    padding: 0.05rem 0.35rem;
+    border-radius: 4px;
+    background: rgba(13, 148, 136, 0.08);
+    color: var(--accent-secondary);
+    border: 1px solid rgba(13, 148, 136, 0.15);
+    font-weight: 500;
+  }
+
+  /* Highlight/Dim individual bullets based on active filter */
+  .bullet-item.dimmed-bullet {
+    opacity: 0.3;
+  }
+
+  .bullet-item.highlighted-bullet {
+    color: var(--text-primary);
+  }
+
+  .bullet-item.highlighted-bullet .tech-inline-badge {
+    background: var(--accent-secondary);
+    color: #ffffff;
+  }
+
+  /* Tech tags section at the bottom of card */
+  .experience-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--surface-border);
+  }
+
+  .tech-card-badge {
+    font-size: 0.75rem;
+    background: var(--badge-bg);
+    color: var(--text-secondary);
+    border-color: var(--badge-border);
+    transition: all var(--transition-fast);
+  }
+
+  .tech-card-badge.highlighted-tag {
+    background: var(--accent-primary);
+    color: #ffffff;
+    border-color: var(--accent-primary);
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  // Add listeners for custom events fired by the skill filter component
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.experience-card');
+
+    document.addEventListener('filter-experience', (e: any) => {
+      const activeSkill = e.detail.skill; // lowercase string, or '' to reset
+
+      if (!activeSkill) {
+        // Reset all states
+        cards.forEach(card => {
+          card.classList.remove('dimmed', 'highlighted');
+          
+          // Reset card tags
+          const tags = card.querySelectorAll('.tech-card-badge');
+          tags.forEach(t => t.classList.remove('highlighted-tag'));
+
+          // Reset bullets
+          const bullets = card.querySelectorAll('.bullet-item');
+          bullets.forEach(b => b.classList.remove('dimmed-bullet', 'highlighted-bullet'));
+        });
+        return;
+      }
+
+      // We are filtering by a skill
+      cards.forEach(card => {
+        const skillsString = card.getAttribute('data-tech') || '';
+        const skillsList = skillsString.split(',');
+        const hasSkill = skillsList.includes(activeSkill);
+
+        if (hasSkill) {
+          card.classList.remove('dimmed');
+          card.classList.add('highlighted');
+
+          // Highlight matching tag at the bottom of the card
+          const tags = card.querySelectorAll('.tech-card-badge');
+          tags.forEach(tag => {
+            if (tag.getAttribute('data-tech-tag') === activeSkill) {
+              tag.classList.add('highlighted-tag');
+            } else {
+              tag.classList.remove('highlighted-tag');
+            }
+          });
+
+          // Highlight individual bullet items that contain this skill
+          const bullets = card.querySelectorAll('.bullet-item');
+          let cardHasMatchingBullet = false;
+
+          bullets.forEach(bullet => {
+            const bulletTechString = bullet.getAttribute('data-bullet-tech') || '';
+            const bulletTechList = bulletTechString.split(',');
+            
+            if (bulletTechList.includes(activeSkill)) {
+              bullet.classList.add('highlighted-bullet');
+              bullet.classList.remove('dimmed-bullet');
+              cardHasMatchingBullet = true;
+            } else {
+              bullet.classList.remove('highlighted-bullet');
+              bullet.classList.add('dimmed-bullet');
+            }
+          });
+
+          // If no specific bullet has the tech, keep all bullets at normal opacity
+          if (!cardHasMatchingBullet) {
+            bullets.forEach(b => b.classList.remove('dimmed-bullet'));
+          }
+
+        } else {
+          card.classList.add('dimmed');
+          card.classList.remove('highlighted');
+          
+          // Reset cards contents
+          const tags = card.querySelectorAll('.tech-card-badge');
+          tags.forEach(t => t.classList.remove('highlighted-tag'));
+          
+          const bullets = card.querySelectorAll('.bullet-item');
+          bullets.forEach(b => b.classList.remove('dimmed-bullet', 'highlighted-bullet'));
+        }
+      });
+    });
+  });
+</script>
