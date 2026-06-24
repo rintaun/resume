@@ -1,5 +1,11 @@
 ---
-import { contactInfo, objective, workExperience, educationHistory, skillCategories } from '../data/resume';
+import {
+  contactInfo,
+  objective,
+  workExperience,
+  educationHistory,
+  skillCategories,
+} from "../data/resume";
 ---
 
 <!doctype html>
@@ -12,18 +18,33 @@ import { contactInfo, objective, workExperience, educationHistory, skillCategori
     <meta name="generator" content={Astro.generator} />
     <title>Matthew Lanigan - Resume (Printable)</title>
     <meta name="robots" content="noindex" />
-    
+
     <!-- Google Fonts for Print Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="no-print print-banner">
       <div class="banner-content">
-        <span>This is the printable resume page. The layout is optimized to print perfectly onto exactly <strong>2 pages</strong> of Letter paper.</span>
         <button onclick="window.print()" class="banner-print-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><polyline points="6 9 6 2 18 2 18 9"></polyline><path
+              d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+            ></path><rect x="6" y="14" width="12" height="8"></rect></svg
+          >
           Print / Save PDF
         </button>
       </div>
@@ -35,21 +56,33 @@ import { contactInfo, objective, workExperience, educationHistory, skillCategori
       <header class="resume-header">
         <h1>{contactInfo.name}</h1>
         <p class="title">{contactInfo.title}</p>
-        
+
         <div class="contact-line">
           <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
           <span class="divider">•</span>
-          <a href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, '')}`}>{contactInfo.phone}</a>
+          <a href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`}
+            >{contactInfo.phone}</a
+          >
           <span class="divider">•</span>
           <span>{contactInfo.location}</span>
         </div>
-        
+
         <div class="links-line">
-          <a href={contactInfo.github} target="_blank" rel="noopener noreferrer">github.com/rintaun</a>
+          <a href={contactInfo.github} target="_blank" rel="noopener noreferrer"
+            >github.com/rintaun</a
+          >
           <span class="divider">•</span>
-          <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer">linkedin.com/in/rintaun</a>
+          <a
+            href={contactInfo.linkedin}
+            target="_blank"
+            rel="noopener noreferrer">linkedin.com/in/rintaun</a
+          >
           <span class="divider">•</span>
-          <a href={contactInfo.website} target="_blank" rel="noopener noreferrer">rintaun.dev</a>
+          <a
+            href={contactInfo.website}
+            target="_blank"
+            rel="noopener noreferrer">rintaun.dev</a
+          >
         </div>
       </header>
 
@@ -63,41 +96,54 @@ import { contactInfo, objective, workExperience, educationHistory, skillCategori
       <section class="resume-section">
         <h2>Skills & Expertise</h2>
         <div class="skills-grid">
-          {skillCategories.map(category => (
-            <div class="skills-row">
-              <span class="category-name">{category.name}:</span>
-              <span class="skills-list">{category.skills.join(', ')}</span>
-            </div>
-          ))}
+          {
+            skillCategories.map((category) => (
+              <div class="skills-row">
+                <span class="category-name">{category.name}:</span>
+                <span class="skills-list">{category.skills.join(", ")}</span>
+              </div>
+            ))
+          }
         </div>
       </section>
 
       <!-- Experience Section (First Part) -->
       <section class="resume-section">
         <h2>Work Experience</h2>
-        
+
         <!-- Render only the two most recent experiences on Page 1 -->
-        {workExperience.slice(0, 2).map(exp => (
-          <div class="job-entry">
-            <div class="job-header">
-              <div class="job-title-company">
-                <span class="job-role">{exp.role}</span>
-                <span class="job-company">— {exp.company}</span>
-                {exp.location && <span class="job-location">({exp.location})</span>}
+        {
+          workExperience.slice(0, 2).map((exp) => (
+            <div class="job-entry">
+              <div class="job-header">
+                <div class="job-title-company">
+                  <span class="job-role">{exp.role}</span>
+                  <span class="job-company">— {exp.company}</span>
+                  {exp.location && (
+                    <span class="job-location">({exp.location})</span>
+                  )}
+                </div>
+                <span class="job-dates">
+                  {exp.startDate} – {exp.endDate}
+                </span>
               </div>
-              <span class="job-dates">{exp.startDate} – {exp.endDate}</span>
+
+              <ul class="job-bullets">
+                {exp.bullets.map((bullet) => (
+                  <li>
+                    {bullet.text}
+                    {bullet.tech && (
+                      <span class="tech-inline">
+                        {" "}
+                        ({bullet.tech.join(", ")})
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
             </div>
-            
-            <ul class="job-bullets">
-              {exp.bullets.map(bullet => (
-                <li>
-                  {bullet.text}
-                  {bullet.tech && <span class="tech-inline"> ({bullet.tech.join(', ')})</span>}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+          ))
+        }
       </section>
     </div>
 
@@ -106,53 +152,66 @@ import { contactInfo, objective, workExperience, educationHistory, skillCategori
       <!-- Experience Section (Remaining Part) -->
       <section class="resume-section" style="margin-top: 0;">
         <!-- Remaining experiences on Page 2 -->
-        {workExperience.slice(2).map(exp => (
-          <div class="job-entry">
-            <div class="job-header">
-              <div class="job-title-company">
-                <span class="job-role">{exp.role}</span>
-                <span class="job-company">— {exp.company}</span>
-                {exp.location && <span class="job-location">({exp.location})</span>}
+        {
+          workExperience.slice(2).map((exp) => (
+            <div class="job-entry">
+              <div class="job-header">
+                <div class="job-title-company">
+                  <span class="job-role">{exp.role}</span>
+                  <span class="job-company">— {exp.company}</span>
+                  {exp.location && (
+                    <span class="job-location">({exp.location})</span>
+                  )}
+                </div>
+                <span class="job-dates">
+                  {exp.startDate} – {exp.endDate}
+                </span>
               </div>
-              <span class="job-dates">{exp.startDate} – {exp.endDate}</span>
+
+              <ul class="job-bullets">
+                {exp.bullets.map((bullet) => (
+                  <li>
+                    {bullet.text}
+                    {bullet.tech && (
+                      <span class="tech-inline">
+                        {" "}
+                        ({bullet.tech.join(", ")})
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
             </div>
-            
-            <ul class="job-bullets">
-              {exp.bullets.map(bullet => (
-                <li>
-                  {bullet.text}
-                  {bullet.tech && <span class="tech-inline"> ({bullet.tech.join(', ')})</span>}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+          ))
+        }
       </section>
 
       <!-- Education Section -->
       <section class="resume-section">
         <h2>Education</h2>
         <div class="education-container">
-          {educationHistory.map(edu => (
-            <div class="edu-entry">
-              <div class="edu-header">
-                <div class="edu-title-inst">
-                  <span class="edu-degree">{edu.degree}</span>
-                  <span class="edu-institution">— {edu.institution}</span>
-                  <span class="edu-location">({edu.location})</span>
+          {
+            educationHistory.map((edu) => (
+              <div class="edu-entry">
+                <div class="edu-header">
+                  <div class="edu-title-inst">
+                    <span class="edu-degree">{edu.degree}</span>
+                    <span class="edu-institution">— {edu.institution}</span>
+                    <span class="edu-location">({edu.location})</span>
+                  </div>
+                  <span class="edu-date">{edu.date}</span>
                 </div>
-                <span class="edu-date">{edu.date}</span>
+                <p class="edu-field">{edu.field}</p>
+                {edu.details && (
+                  <ul class="edu-bullets">
+                    {edu.details.map((detail) => (
+                      <li>{detail}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
-              <p class="edu-field">{edu.field}</p>
-              {edu.details && (
-                <ul class="edu-bullets">
-                  {edu.details.map(detail => (
-                    <li>{detail}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
+            ))
+          }
         </div>
       </section>
     </div>
@@ -177,7 +236,13 @@ import { contactInfo, objective, workExperience, educationHistory, skillCategori
   body {
     background-color: #f0f2f5;
     color: var(--text-dark);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      sans-serif;
     line-height: 1.4;
     padding-bottom: 3rem;
   }
@@ -228,7 +293,9 @@ import { contactInfo, objective, workExperience, educationHistory, skillCategori
     height: 11in;
     margin: 2rem auto 0 auto;
     padding: 0.6in 0.75in;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.05),
+      0 1px 2px rgba(0, 0, 0, 0.02);
     position: relative;
     overflow: hidden;
   }
@@ -258,7 +325,8 @@ import { contactInfo, objective, workExperience, educationHistory, skillCategori
     margin-bottom: 0.4rem;
   }
 
-  .contact-line, .links-line {
+  .contact-line,
+  .links-line {
     font-size: 8.5pt;
     color: var(--text-light);
     display: flex;
@@ -267,12 +335,14 @@ import { contactInfo, objective, workExperience, educationHistory, skillCategori
     margin-bottom: 0.15rem;
   }
 
-  .contact-line a, .links-line a {
+  .contact-line a,
+  .links-line a {
     text-decoration: none;
     color: var(--text-light);
   }
 
-  .contact-line a:hover, .links-line a:hover {
+  .contact-line a:hover,
+  .links-line a:hover {
     color: var(--text-dark);
     text-decoration: underline;
   }
@@ -490,9 +560,9 @@ import { contactInfo, objective, workExperience, educationHistory, skillCategori
 
 <script>
   // Automatically trigger print dialog if ?print=true is present
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('print') === 'true') {
+    if (params.get("print") === "true") {
       window.print();
     }
   });
