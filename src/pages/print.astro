@@ -50,7 +50,8 @@ import {
       </div>
     </div>
 
-    <!-- PAGE 1 -->
+    <div class="resume-wrapper">
+      <!-- PAGE 1 -->
     <div class="resume-page">
       <!-- Centered Compact Header -->
       <header class="resume-header">
@@ -215,6 +216,7 @@ import {
         </div>
       </section>
     </div>
+    </div>
   </body>
 </html>
 
@@ -245,6 +247,8 @@ import {
       sans-serif;
     line-height: 1.4;
     padding-bottom: 3rem;
+    overflow-x: hidden;
+    width: 100%;
   }
 
   /* Preview Banner */
@@ -286,12 +290,23 @@ import {
     background: #2563eb;
   }
 
+  .resume-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
   /* Sheet of paper styles for screen view */
   .resume-page {
     background: #ffffff;
     width: 8.5in;
     height: 11in;
-    margin: 2rem auto 0 auto;
+    margin: 2rem 0 0 0;
+    flex-shrink: 0;
     padding: 0.6in 0.75in;
     box-shadow:
       0 4px 20px rgba(0, 0, 0, 0.05),
@@ -531,6 +546,13 @@ import {
 
     .no-print {
       display: none !important;
+    }
+
+    .resume-wrapper {
+      width: 100% !important;
+      overflow: visible !important;
+      padding: 0 !important;
+      display: block !important;
     }
 
     .resume-page {
